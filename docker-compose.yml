@@ -1,0 +1,6 @@
+services:
+  telemetry:
+    build: .
+    container_name: telemetry
+    ports:
+      - "8080:8080"
