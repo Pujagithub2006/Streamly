@@ -31,7 +31,11 @@ public class KafkaConsumerConfig {
 
         properties.put(
                 ConsumerConfig.GROUP_ID_CONFIG,
-                "telemetry-consumer-group");
+                "telemetry-group");
+
+        properties.put(
+                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,
+                "earliest");
 
         properties.put(
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
