@@ -21,6 +21,7 @@ public class DataInitializer {
             System.out.println("Data Initializer started");
 
             TelemetryEvent event = new TelemetryEvent(
+                    "event-001",
                     "sensor-001",
                     27.5,
                     65.2,

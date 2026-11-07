@@ -15,8 +15,10 @@ public class TelemetryRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_id")
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String eventId;
 
     private String deviceId;
 
@@ -30,14 +32,21 @@ public class TelemetryRecord {
     }
 
     public TelemetryRecord(
+            String eventId,
             String deviceId,
             double temperature,
             double humidity,
             Instant timestamp) {
+
+        this.eventId = eventId;
         this.deviceId = deviceId;
         this.temperature = temperature;
         this.humidity = humidity;
         this.timestamp = timestamp;
+    }
+
+    public String getEventId() {
+        return eventId;
     }
 
     public Long getId() {
@@ -58,6 +67,10 @@ public class TelemetryRecord {
 
     public Instant getTimestamp() {
         return timestamp;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 
     public void setDeviceId(String deviceId) {

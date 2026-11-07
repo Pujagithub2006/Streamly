@@ -4,6 +4,8 @@ import java.time.Instant;
 
 public class TelemetryEvent {
 
+    private String eventId;
+
     private String deviceId;
 
     private double temperature;
@@ -16,14 +18,21 @@ public class TelemetryEvent {
     }
 
     public TelemetryEvent(
+            String eventId,
             String deviceId,
             double temperature,
             double humidity,
             Instant timestamp) {
+
+        this.eventId = eventId;
         this.deviceId = deviceId;
         this.temperature = temperature;
         this.humidity = humidity;
         this.timestamp = timestamp;
+    }
+
+    public String getEventId() {
+        return eventId;
     }
 
     public String getDeviceId() {
@@ -40,6 +49,10 @@ public class TelemetryEvent {
 
     public Instant getTimestamp() {
         return timestamp;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 
     public void setDeviceId(String deviceId) {
