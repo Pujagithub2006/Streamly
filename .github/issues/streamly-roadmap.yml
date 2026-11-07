@@ -1,0 +1,252 @@
+project: Streamly
+milestone: FAANG-Grade Distributed Telemetry Platform
+
+issues:
+
+  - title: "Implement Reliable Event Persistence"
+    number: 11
+    labels:
+      - persistence
+      - kafka
+      - backend
+    body: |
+      ## Overview
+      Improve telemetry persistence reliability by introducing a proper processing layer between Kafka consumption and PostgreSQL storage.
+
+      ## Objectives
+      - Separate Kafka event models from database entities
+      - Introduce persistence service layer
+      - Implement transactional event processing
+      - Add idempotent event handling
+
+      ## Architecture
+
+      Kafka Consumer
+          |
+          v
+      Processing Service
+          |
+          v
+      Persistence Layer
+          |
+          v
+      PostgreSQL
+
+      ## Acceptance Criteria
+      - Duplicate Kafka events do not create duplicate records
+      - Persistence failures are handled safely
+      - Database writes are transactional
+
+
+  - title: "Implement Retry and Dead Letter Queue Handling"
+    number: 12
+    labels:
+      - kafka
+      - reliability
+    body: |
+      ## Overview
+      Introduce failure recovery mechanisms for failed telemetry processing.
+
+      ## Objectives
+      - Add retry mechanism
+      - Configure retry topics
+      - Implement Dead Letter Queue
+      - Handle poison messages
+
+      ## Acceptance Criteria
+      - Failed events are retried
+      - Permanently failed events move to DLQ
+      - Consumer does not stop due to invalid messages
+
+
+  - title: "Implement Telemetry Event Schema Evolution"
+    number: 13
+    labels:
+      - kafka
+      - architecture
+    body: |
+      ## Overview
+      Support future telemetry schema changes without breaking consumers.
+
+      ## Objectives
+      - Introduce event versioning
+      - Handle backward compatibility
+      - Document schema evolution strategy
+
+      ## Acceptance Criteria
+      - Older consumers can process newer events
+      - Event versions are identifiable
+
+
+  - title: "Implement Kafka Partitioning Strategy"
+    number: 14
+    labels:
+      - kafka
+      - scalability
+    body: |
+      ## Overview
+      Improve Kafka scalability using partitions and message keys.
+
+      ## Objectives
+      - Configure multiple partitions
+      - Define deviceId based partition key
+      - Preserve device event ordering
+
+      ## Acceptance Criteria
+      - Events are distributed across partitions
+      - Same device events maintain ordering
+
+
+  - title: "Implement Consumer Horizontal Scaling"
+    number: 15
+    labels:
+      - kafka
+      - distributed-systems
+    body: |
+      ## Overview
+      Demonstrate Kafka consumer group scalability.
+
+      ## Objectives
+      - Run multiple consumer instances
+      - Validate partition assignment
+      - Measure processing throughput
+
+      ## Acceptance Criteria
+      - Consumers share partitions automatically
+      - No duplicate processing occurs
+
+
+  - title: "Implement Real-Time Telemetry Processing"
+    number: 16
+    labels:
+      - streaming
+      - kafka
+    body: |
+      ## Overview
+      Add real-time processing capabilities on incoming telemetry streams.
+
+      ## Objectives
+      - Create processing pipeline
+      - Detect abnormal telemetry values
+      - Generate telemetry alerts
+
+      ## Acceptance Criteria
+      - Threshold-based alerts are generated
+      - Processing happens asynchronously
+
+
+  - title: "Implement Telemetry Query Optimization"
+    number: 17
+    labels:
+      - database
+      - api
+    body: |
+      ## Overview
+      Optimize telemetry retrieval for large datasets.
+
+      ## Objectives
+      - Add database indexes
+      - Implement pagination
+      - Support time-range queries
+
+      ## Acceptance Criteria
+      - Large telemetry queries remain efficient
+      - Query performance is measurable
+
+
+  - title: "Add Redis Caching Layer"
+    number: 18
+    labels:
+      - caching
+      - performance
+    body: |
+      ## Overview
+      Introduce caching for frequently accessed telemetry data.
+
+      ## Objectives
+      - Integrate Redis
+      - Implement cache strategy
+      - Configure expiration policies
+
+      ## Acceptance Criteria
+      - Cache reduces database reads
+      - Cache invalidation strategy is documented
+
+
+  - title: "Implement Real-Time Dashboard Communication"
+    number: 19
+    labels:
+      - websocket
+      - realtime
+    body: |
+      ## Overview
+      Provide real-time telemetry updates to clients.
+
+      ## Objectives
+      - Implement WebSocket or SSE communication
+      - Stream processed telemetry updates
+      - Support live monitoring
+
+      ## Acceptance Criteria
+      - Clients receive telemetry updates instantly
+      - Connection handling is reliable
+
+
+  - title: "Add Search and Analytics Pipeline"
+    number: 20
+    labels:
+      - analytics
+      - elasticsearch
+    body: |
+      ## Overview
+      Build an analytics pipeline for telemetry exploration.
+
+      ## Objectives
+      - Index telemetry data
+      - Add search capabilities
+      - Separate operational and analytical workloads
+
+      ## Acceptance Criteria
+      - Telemetry search is available
+      - Analytics queries do not affect transactional storage
+
+
+  - title: "Implement Observability Stack"
+    number: 21
+    labels:
+      - observability
+      - monitoring
+    body: |
+      ## Overview
+      Add production-grade monitoring.
+
+      ## Objectives
+      - Integrate Spring Actuator
+      - Export Prometheus metrics
+      - Create Grafana dashboards
+
+      ## Metrics
+      - Kafka consumer lag
+      - Message throughput
+      - Processing latency
+      - Error rate
+
+
+  - title: "Production Deployment and Load Testing"
+    number: 22
+    labels:
+      - production
+      - kubernetes
+    body: |
+      ## Overview
+      Prepare Streamly for production-scale deployment.
+
+      ## Objectives
+      - Containerize services
+      - Deploy using Kubernetes
+      - Perform load testing
+
+      ## Acceptance Criteria
+      - System handles high event throughput
+      - Performance bottlenecks are identified
+      - Deployment process is documented
