@@ -22,21 +22,14 @@ public class TelemetryPersistenceService {
     }
 
     @Transactional
-    public void save(TelemetryEvent event) {
+    public void save(TelemetryRecord record) {
 
         if (telemetryRepository
-                .findByEventId(event.getEventId())
+                .findByEventId(record.getEventId())
                 .isPresent()) {
-            System.out.println("Duplicate events ignored: " + event.getEventId());
+            System.out.println("Duplicate events ignored: " + record.getEventId());
             return;
         }
-
-        TelemetryRecord record = new TelemetryRecord(
-                event.getEventId(),
-                event.getDeviceId(),
-                event.getTemperature(),
-                event.getHumidity(),
-                event.getTimestamp());
 
         telemetryRepository.save(record);
     }
