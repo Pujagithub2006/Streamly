@@ -7,6 +7,10 @@ import org.springframework.kafka.retrytopic.DltStrategy;
 import org.springframework.stereotype.Service;
 
 import com.streamly.telemetry.domain.TelemetryEvent;
+import com.streamly.telemetry.domain.TelemetryRecord;
+import com.streamly.telemetry.domain.event.VersionedTelemetryEvent;
+import com.streamly.telemetry.service.TelemetryEventProcessor;
+import com.streamly.telemetry.service.TelemetryEventVersionMapper;
 import com.streamly.telemetry.service.TelemetryPersistenceService;
 
 import org.slf4j.Logger;
@@ -19,10 +23,19 @@ public class TelemetryConsumerService {
 
     private final TelemetryPersistenceService persistenceService;
 
-    public TelemetryConsumerService(
-            TelemetryPersistenceService persistenceService) {
+    private final TelemetryEventVersionMapper eventVersionMapper;
 
+    private final TelemetryEventProcessor telemetryEventProcessor;
+
+    public TelemetryConsumerService(
+            TelemetryPersistenceService persistenceService,
+            TelemetryEventVersionMapper eventVersionMapper,
+            TelemetryEventProcessor telemetryEventProcessor
+
+    ) {
         this.persistenceService = persistenceService;
+        this.eventVersionMapper = eventVersionMapper;
+        this.telemetryEventProcessor = telemetryEventProcessor;
     }
 
     @RetryableTopic(attempts = "3", backOff = @BackOff(delay = 2000, multiplier = 2.0 // exponential backoff
@@ -30,24 +43,34 @@ public class TelemetryConsumerService {
     @KafkaListener(topics = "telemetry-events", groupId = "telemetry-group")
     public void consume(TelemetryEvent event) {
 
+        // correct contract since every TelemetryEvent<Version> implicitly extends
+        // Object
+        VersionedTelemetryEvent versionedEvent = eventVersionMapper.map(event);
+
+        // (Type Safety Lost) incorrect contract since now Object does not explicitly
+        // know which TelemetryEvent<Version> and henceforth which methods
+        // persistenceService.save(versionedEvent);
+
+        TelemetryRecord record = telemetryEventProcessor.process(versionedEvent);
+
+        persistenceService.save(record);
+
         logger.info(
                 "Received telemetry event eventId={} deviceId={}",
-                event.getEventId(),
-                event.getDeviceId());
+                versionedEvent.getEventId(),
+                versionedEvent.getDeviceId());
 
-        if (event.getTemperature() < 0) {
+        if (versionedEvent.getTemperature() < 0) {
             logger.warn(
                     "Invalid temperature detected eventId={} temperature={}",
-                    event.getEventId(),
-                    event.getTemperature());
+                    versionedEvent.getEventId(),
+                    versionedEvent.getTemperature());
 
             throw new RuntimeException("Invalid temperature value");
         }
 
-        persistenceService.save(event);
-
         logger.info(
                 "Telemetry persisted successfully eventId={}",
-                event.getEventId());
+                versionedEvent.getEventId());
     }
 }
