@@ -21,6 +21,20 @@ public class KafkaTopicConfig {
                 (short) 1);
     }
 
+    // do not need to manually create retry topic beans when using @RetryableTopic
+    /*
+     * @Retryable
+     * 
+     * @Bean
+     * public NewTopic retryTelemetryTopic() {
+     * return new NewTopic(
+     * "telemetry-events-dlt",
+     * 1,
+     * (short) 1
+     * );
+     * }
+     */
+
     @Bean
     public DefaultKafkaProducerFactoryCustomizer producerFactoryCustomizer() {
         return producerFactory -> {
