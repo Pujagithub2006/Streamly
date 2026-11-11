@@ -3,8 +3,8 @@ package com.streamly.telemetry.service;
 import org.springframework.stereotype.Service;
 
 import com.streamly.telemetry.domain.TelemetryRecord;
-import com.streamly.telemetry.domain.event.VersionedTelemetryEvent;
-import com.streamly.telemetry.domain.event.capability.BatteryAwareTelemetryEvent;
+import com.streamly.telemetry.domain.capability.BatteryAwareTelemetryEvent;
+import com.streamly.telemetry.event.payload.VersionedTelemetryEvent;
 
 @Service
 public class TelemetryEventProcessor {
