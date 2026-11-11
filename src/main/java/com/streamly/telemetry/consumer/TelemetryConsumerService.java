@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.streamly.telemetry.domain.TelemetryEvent;
 import com.streamly.telemetry.domain.TelemetryRecord;
-import com.streamly.telemetry.domain.event.VersionedTelemetryEvent;
+import com.streamly.telemetry.event.mapper.TelemetryEventVersionMapper;
+import com.streamly.telemetry.event.payload.VersionedTelemetryEvent;
 import com.streamly.telemetry.service.TelemetryEventProcessor;
-import com.streamly.telemetry.service.TelemetryEventVersionMapper;
 import com.streamly.telemetry.service.TelemetryPersistenceService;
 
 import org.slf4j.Logger;

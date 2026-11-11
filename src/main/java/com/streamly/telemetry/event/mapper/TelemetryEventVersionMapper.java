@@ -1,11 +1,11 @@
-package com.streamly.telemetry.service;
+package com.streamly.telemetry.event.mapper;
 
 import org.springframework.stereotype.Service;
 
 import com.streamly.telemetry.domain.TelemetryEvent;
-import com.streamly.telemetry.domain.event.TelemetryEventV1;
-import com.streamly.telemetry.domain.event.TelemetryEventV2;
-import com.streamly.telemetry.domain.event.VersionedTelemetryEvent;
+import com.streamly.telemetry.event.payload.TelemetryEventV1;
+import com.streamly.telemetry.event.payload.TelemetryEventV2;
+import com.streamly.telemetry.event.payload.VersionedTelemetryEvent;
 
 @Service
 public class TelemetryEventVersionMapper {

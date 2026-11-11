@@ -1,4 +1,4 @@
-package com.streamly.telemetry.domain.event.capability;
+package com.streamly.telemetry.domain.capability;
 
 public interface BatteryAwareTelemetryEvent {
 

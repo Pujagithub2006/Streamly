@@ -1,8 +1,8 @@
-package com.streamly.telemetry.domain.event;
+package com.streamly.telemetry.event.payload;
 
 import java.time.Instant;
 
-import com.streamly.telemetry.domain.event.capability.BatteryAwareTelemetryEvent;
+import com.streamly.telemetry.domain.capability.BatteryAwareTelemetryEvent;
 
 public class TelemetryEventV2
         implements VersionedTelemetryEvent, BatteryAwareTelemetryEvent {

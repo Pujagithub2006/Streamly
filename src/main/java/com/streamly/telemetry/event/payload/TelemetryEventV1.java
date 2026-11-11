@@ -1,4 +1,4 @@
-package com.streamly.telemetry.domain.event;
+package com.streamly.telemetry.event.payload;
 
 import java.time.Instant;
 
