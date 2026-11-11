@@ -26,6 +26,7 @@ public class DataInitializer {
                     "sensor-001",
                     27.5,
                     65.2,
+                    1,
                     Instant.now());
             producer.publish(event);
 

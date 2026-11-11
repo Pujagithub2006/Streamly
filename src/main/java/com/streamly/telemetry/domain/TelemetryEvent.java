@@ -14,7 +14,7 @@ public class TelemetryEvent {
 
     private double humidity;
 
-    // private double batteryLevel;
+    private double batteryLevel;
 
     private Instant timestamp;
 
@@ -27,7 +27,7 @@ public class TelemetryEvent {
             String deviceId,
             double temperature,
             double humidity,
-            // double batteryLevel,
+            double batteryLevel,
             Instant timestamp) {
 
         this.eventVersion = eventVersion;
@@ -35,7 +35,7 @@ public class TelemetryEvent {
         this.deviceId = deviceId;
         this.temperature = temperature;
         this.humidity = humidity;
-        // this.batteryLevel = batteryLevel;
+        this.batteryLevel = batteryLevel;
         this.timestamp = timestamp;
     }
 
@@ -59,9 +59,9 @@ public class TelemetryEvent {
         return humidity;
     }
 
-    // public double getBatteryLevel() {
-    // return batteryLevel;
-    // }
+    public double getBatteryLevel() {
+        return batteryLevel;
+    }
 
     public Instant getTimestamp() {
         return timestamp;
@@ -87,9 +87,9 @@ public class TelemetryEvent {
         this.humidity = humidity;
     }
 
-    // public void setBatteryLevel(double batteryLevel) {
-    // this.batteryLevel = batteryLevel;
-    // }
+    public void setBatteryLevel(double batteryLevel) {
+        this.batteryLevel = batteryLevel;
+    }
 
     public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
