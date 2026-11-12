@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.streamly.telemetry.domain.TelemetryEvent;
 import com.streamly.telemetry.domain.TelemetryRecord;
+import com.streamly.telemetry.event.envelope.EventEnvelope;
 import com.streamly.telemetry.event.mapper.TelemetryEventVersionMapper;
 import com.streamly.telemetry.event.payload.VersionedTelemetryEvent;
 import com.streamly.telemetry.service.TelemetryEventProcessor;
@@ -41,7 +42,10 @@ public class TelemetryConsumerService {
     @RetryableTopic(attempts = "3", backOff = @BackOff(delay = 2000, multiplier = 2.0 // exponential backoff
     ), dltStrategy = DltStrategy.FAIL_ON_ERROR)
     @KafkaListener(topics = "telemetry-events", groupId = "telemetry-group")
-    public void consume(TelemetryEvent event) {
+    public void consume(EventEnvelope<TelemetryEvent> envelope) {
+
+        // extract payload (event JSON) from received envelope metadata
+        TelemetryEvent event = envelope.getPayload();
 
         // correct contract since every TelemetryEvent<Version> implicitly extends
         // Object
