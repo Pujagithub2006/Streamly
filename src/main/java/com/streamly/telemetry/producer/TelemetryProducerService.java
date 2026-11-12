@@ -36,6 +36,7 @@ public class TelemetryProducerService {
 
     // event would be sent but extract metadata from it
     public void publish(TelemetryEvent event) {
+
         VersionedTelemetryEvent versionedEvent = versionMapper.map(event); // creates versioned event
 
         // EventEnvelope now accepts a versioned event
