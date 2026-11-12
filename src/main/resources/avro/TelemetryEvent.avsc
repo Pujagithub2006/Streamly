@@ -1,0 +1,39 @@
+{
+  "type": "record",
+  "name": "TelemetryEvent",
+  "namespace": "com.streamly.telemetry.avro",
+
+  "doc": "Schema Registry displayed via batteryLevel field. Doesn't maintain explicit schemaVersions"
+
+  "fields": [
+    {
+      "name": "eventId",
+      "type": "string"
+    },
+    {
+      "name": "deviceId",
+      "type": "string"
+    },
+    {
+      "name": "temperature",
+      "type": "double"
+    },
+    {
+      "name": "humidity",
+      "type": "double"
+    },
+    {
+      "name": "batteryLevel",
+      "type": [
+        "null",
+        "double"
+      ],
+      "default": null
+    },
+    {
+      "name": "timestamp",
+      "type": "long",
+      "logicalType": "timestamp-millis"
+    }
+  ]
+}
