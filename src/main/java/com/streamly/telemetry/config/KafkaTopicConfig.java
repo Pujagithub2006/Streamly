@@ -13,10 +13,30 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @Configuration
 public class KafkaTopicConfig {
 
+    // different Kafka topics
+    /*
+     * NewTopic(
+     * topic,
+     * partition,
+     * replicas
+     * );
+     */
+    // Kafka Topic names
+    public static final String KAFKA_V1_TOPIC = "telemetry-events-v1"; // visible to outside package 'producer'
+    public static final String KAFKA_V2_TOPIC = "telemetry-events-v2";
+
     @Bean
-    public NewTopic telemetryTopic() {
+    public NewTopic telemetryV1Topic() {
         return new NewTopic(
-                "telemetry-events",
+                KAFKA_V1_TOPIC,
+                1,
+                (short) 1);
+    }
+
+    @Bean
+    public NewTopic telemetryV2Topic() {
+        return new NewTopic(
+                KAFKA_V2_TOPIC,
                 1,
                 (short) 1);
     }
