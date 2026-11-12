@@ -1,6 +1,8 @@
 package com.streamly.telemetry.config;
 
 import com.streamly.telemetry.domain.TelemetryEvent;
+import com.streamly.telemetry.event.envelope.EventEnvelope;
+
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -16,48 +18,50 @@ import java.util.Map;
 @Configuration
 public class KafkaConsumerConfig {
 
-    @Bean
-    public ConsumerFactory<String, TelemetryEvent> consumerFactory() {
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+        @Bean
+        public ConsumerFactory<String, EventEnvelope<TelemetryEvent>> consumerFactory() {
 
-        JsonDeserializer<TelemetryEvent> deserializer = new JsonDeserializer<>(TelemetryEvent.class);
+                JsonDeserializer<EventEnvelope<TelemetryEvent>> deserializer = new JsonDeserializer<>(
+                                EventEnvelope.class);
 
-        deserializer.addTrustedPackages("com.streamly.telemetry");
+                deserializer.addTrustedPackages("com.streamly.telemetry");
 
-        Map<String, Object> properties = new HashMap<>();
+                Map<String, Object> properties = new HashMap<>();
 
-        properties.put(
-                ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                "kafka:9092");
+                properties.put(
+                                ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                                "kafka:9092");
 
-        properties.put(
-                ConsumerConfig.GROUP_ID_CONFIG,
-                "telemetry-group");
+                properties.put(
+                                ConsumerConfig.GROUP_ID_CONFIG,
+                                "telemetry-group");
 
-        properties.put(
-                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,
-                "earliest");
+                properties.put(
+                                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,
+                                "earliest");
 
-        properties.put(
-                ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-                StringDeserializer.class);
+                properties.put(
+                                ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
+                                StringDeserializer.class);
 
-        properties.put(
-                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                JsonDeserializer.class);
+                properties.put(
+                                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
+                                JsonDeserializer.class);
 
-        return new DefaultKafkaConsumerFactory<>(
-                properties,
-                new StringDeserializer(),
-                deserializer);
-    }
+                return new DefaultKafkaConsumerFactory<>(
+                                properties,
+                                new StringDeserializer(),
+                                deserializer);
+        }
 
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, TelemetryEvent> kafkaListenerContainerFactory() {
+        @Bean
+        public ConcurrentKafkaListenerContainerFactory<String, EventEnvelope<TelemetryEvent>> kafkaListenerContainerFactory() {
 
-        ConcurrentKafkaListenerContainerFactory<String, TelemetryEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
+                ConcurrentKafkaListenerContainerFactory<String, EventEnvelope<TelemetryEvent>> factory = new ConcurrentKafkaListenerContainerFactory<>();
 
-        factory.setConsumerFactory(consumerFactory());
+                factory.setConsumerFactory(consumerFactory());
 
-        return factory;
-    }
+                return factory;
+        }
 }
